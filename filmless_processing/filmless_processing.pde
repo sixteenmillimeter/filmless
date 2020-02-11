@@ -33,7 +33,7 @@ int SOUND_OFFSET = 25;
 
 //This is a magic number that is used to scale the vertical (H) or horizontal (W) resolution
 //because the printer sometimes lies to you.
-float MAGIC_H_CORRECTION = 251.45999 / 253.4; //1.0;
+float MAGIC_H_CORRECTION = 1.0;
 float MAGIC_W_CORRECTION = 1.0;
 
 /**
