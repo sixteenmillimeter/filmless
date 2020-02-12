@@ -4,7 +4,9 @@ Scripts and templates for making "filmless", cameraless analog films using free 
 
 This is a collection of tools for printing and/or laser cutting non-film materials into 16mm-shaped strips of film. Use the Processing sketch to turn your video into valid scale 16mm images for printing on inkjet transparency or any kind of printable transparency sheets.
 
-## What this repo contains
+### [Download](https://github.com/sixteenmillimeter/filmless/archive/master.zip)
+
+## What this repository contains
 
 1. [Laser cutting templates](#laser)
 2. [Scripts for exporting video to image sequences](#scripts)
