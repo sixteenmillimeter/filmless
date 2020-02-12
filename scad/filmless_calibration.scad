@@ -1,8 +1,9 @@
-W = 192;
-H = 251.45999;
+W = 192;//12 strips
+//H = 251.45999; //33 frames long pitch
+H = 250.87791; //33 frames short pitch
 
 module block (x, y) {
-    translate([x, y, 0]) cube([10, 10, 10], center = true);
+    translate([x, y, 0]) cube([10, 10, 10]);
 }
 
 projection () {
