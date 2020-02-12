@@ -90,8 +90,8 @@ void setup () {
   
   int len;
   for (int i = 0; i < 10; i++) {
-    page.text(i + "", 6 * mmX, topY + (cmY * i) + 20);
-    page.text(i + "", leftX + (cmX * i) - 10, 6 * mmY);
+    page.text(i + "", 6 * mmX, topY + (cmY * i) + (FONT_SIZE / 2));
+    page.text(i + "", leftX + (cmX * i) - (FONT_SIZE / 4), 6 * mmY);
     for (int m = 0; m < 10; m++) {
       if (m == 0 || m == 5) {
         len = 5;
@@ -104,10 +104,10 @@ void setup () {
   }
   
   page.line(0, topY + (cmY * 9) + (10 * mmY), 5 * mmX, topY + (cmY * 9) + (10 * mmY));
-  page.text(10 + "", 6 * mmX, topY + (cmY * 10) + 20);
+  page.text(10 + "", 6 * mmX, topY + (cmY * 10) + (FONT_SIZE / 2));
   
   page.line(leftX + (cmX * 9) + (10 * mmX), 0, leftX + (cmX * 9) + (10 * mmX), 5 * mmY);
-  page.text(10 + "", leftX + (cmX * 10) - 10, 6 * mmY);
+  page.text(10 + "", leftX + (cmX * 10) - (FONT_SIZE / 4), 6 * mmY);
   
   page.noFill();
   page.rect(0, 0, 10 * DPMM, 10 * DPMM);
@@ -116,7 +116,7 @@ void setup () {
   page.rect(0, ((ROWS * (SPACING / DPMM)) * DPMM) - (10 * DPMM) - 1, 10 * DPMM, 10 * DPMM);
   
   page.text((16 * COLUMNS) + "mm", ((16 * COLUMNS) * DPMM) - (10 * DPMM), 12 * DPMM);
-  page.text((ROWS * (SPACING / DPMM)) + "mm", 11 * DPMM, ((ROWS * (SPACING / DPMM)) * DPMM) - 100);
+  page.text((ROWS * (SPACING / DPMM)) + "mm", 11 * DPMM, ((ROWS * (SPACING / DPMM)) * DPMM) - (2 * DPMM));
   
   page.endDraw();
   page.save("calibration_" + PAGE_W + "x" + PAGE_H + "_" + COLUMNS + "strips_" + ROWS + "frames_" + PITCH + "_" + DPI + "dpi.tif");
