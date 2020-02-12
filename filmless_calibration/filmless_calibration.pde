@@ -50,6 +50,7 @@ int LEFT_PAD = round(((16 - STD16_W) / 2) * DPMM * MAGIC_W_CORRECTION); //space 
 int COLUMNS = floor(PAGE_W_PIXELS / (16 * DPMM));
 int ROWS = floor(PAGE_H_PIXELS / SPACING);
 int FRAME_LINE = round((SPACING - FRAME_H) / 2);
+int FONT_SIZE = ceil(DPI / 24);
 
 PGraphics page;
 
@@ -73,7 +74,7 @@ void setup () {
   page.background(255);
   page.stroke(0);
   page.fill(0);
-  page.textSize(60);
+  page.textSize(FONT_SIZE);
   float leftX = 20 * DPMM * MAGIC_W_CORRECTION;
   float topY = 20 * DPMM * MAGIC_H_CORRECTION;
   

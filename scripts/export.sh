@@ -9,7 +9,7 @@ AUDIO_RATE=10296
 #Either use the script by passing in a path, ie:
 #sh export.sh /path/to/my/video.mov
 #or hardcode it by changing VIDEO=${1} to VIDEO=/path/to/my/video.mov
-VIDEO=${1}
+VIDEO="${1}"
 
 # change these to directory where you will store your frames and audio
 FRAMES_DIR=~/Desktop/frames/
