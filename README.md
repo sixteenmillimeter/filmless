@@ -183,13 +183,13 @@ The purpose of the calibration sketch `filmless_calibration` is to generate a pa
 
 On a Mac, ffmpeg can be quickly and easily installed using the [Homebrew](https://brew.sh) package manager. Simply go to [https://brew.sh](https://brew.sh) and follow the instructions on the page. Then, 
 
-```
+```bash
 brew install ffmpeg
 ```
 
 To install ImageMagick (which will include the program `convert`):
 
-```
+```bash
 brew install imagemagick
 ```
 
@@ -197,13 +197,13 @@ brew install imagemagick
 
 Install both ffmpeg and ImageMagick on Linux systems with either apt or yum.
 
-```
+```bash
 apt install ffmpeg imagemagick
 ```
 
 or
 
-```
+```bash
 yum install ffmpeg imagemagick
 ```
 
