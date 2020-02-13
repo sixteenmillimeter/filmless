@@ -1,6 +1,6 @@
 # filmless
 
-Scripts and templates for making "filmless", cameraless analog films using free open-source software.
+Scripts and templates for making "filmless", cameraless analog films using free open-source software. Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this set of tools provides a pixel perfect accurate tool for building 16mm strips from image sequences.
 
 This is a collection of tools for printing and/or laser cutting non-film materials into 16mm-shaped strips of film. Use the Processing sketch to turn your video into valid scale 16mm images for printing on inkjet transparency or any kind of printable transparency sheets.
 
@@ -159,10 +159,12 @@ int SOUND_OFFSET = 25;
 
 The sound offset is the number of frames before the image starts after the soundtrack starts. When set to `25` the image will start on the 26th frame, which is the standard for 16mm prints. Change this only if sync sound is not important.
 
+To set the `MAGIC_W_CORRECTION` and `MAGIC_H_CORRECTION` variables, read the below section on calibration.
+
 <a name="calibration"></a>
 #### 4. Calibration sketch
 
-The purpose of the calibration sketch `filmless_calibration` is to generate a page to calibrate between your printer and laser cutter. The page it generates is easy on your ink cartridge while you determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
+The purpose of the calibration sketch `filmless_calibration.pde` is to generate a page to calibrate between your printer and laser cutter. The page it generates is easy on your ink cartridge while you determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
 
 ## Hardware
 
