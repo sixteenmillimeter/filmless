@@ -116,7 +116,7 @@ void setup () {
   page.rect(0, ((ROWS * (SPACING / DPMM)) * DPMM) - (10 * DPMM) - 1, 10 * DPMM, 10 * DPMM);
   
   page.text((16 * COLUMNS) + "mm", ((16 * COLUMNS) * DPMM) - (10 * DPMM), 12 * DPMM);
-  page.text((ROWS * (SPACING / DPMM)) + "mm", 11 * DPMM, ((ROWS * (SPACING / DPMM)) * DPMM) - (2 * DPMM));
+  page.text((ROWS * (SPACING / DPMM)) + "mm", 11 * DPMM, ((ROWS * (SPACING / DPMM)) * DPMM) - DPMM);
   
   page.endDraw();
   page.save("calibration_" + PAGE_W + "x" + PAGE_H + "_" + COLUMNS + "strips_" + ROWS + "frames_" + PITCH + "_" + DPI + "dpi.tif");
