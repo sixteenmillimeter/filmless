@@ -21,9 +21,9 @@ mkdir -p "$AUDIO_DIR"
 echo "Exporting ${VIDEO}..."
 
 rm "${FRAMES_DIR}*.png"
-ffmpeg -y -i "${VIDEO}" -f image2 -r 24 "${FRAMES_DIR}image-%04d.png"
+ffmpeg -y -i "${VIDEO}" -f image2 -r 24 "${FRAMES_DIR}image-%05d.png"
 
 if [ "$WITH_SOUND" == "true" ]; then
   echo "Exporting audio from ${VIDEO}..."
-  ffmpeg -y -i "${VIDEO}" -y -acodec pcm_s16le -ac 1 -ar $AUDIO_RATE -ss "$START" -t 15 "${AUDIO_DIR}audio.wav"
+  ffmpeg -y -i "${VIDEO}" -y -acodec pcm_s16le -ac 1 -ar $AUDIO_RATE "${AUDIO_DIR}audio.wav"
 fi
