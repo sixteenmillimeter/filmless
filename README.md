@@ -1,6 +1,8 @@
 # filmless
 
-Scripts and templates for making "filmless", cameraless analog films using free open-source software. Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this set of tools provides a pixel perfect accurate tool for building 16mm strips from image sequences.
+Scripts and templates for making "filmless", cameraless analog films using free open-source software. 
+
+Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this set of tools provides a pixel perfect accurate tool for building image sequences for printing and laser cutting into watchable 16mm film strips.
 
 This is a collection of tools for printing and/or laser cutting non-film materials into 16mm-shaped strips of film. Use the Processing sketch to turn your video into valid scale 16mm images for printing on inkjet transparency or any kind of printable transparency sheets.
 
@@ -9,50 +11,205 @@ This is a collection of tools for printing and/or laser cutting non-film materia
 ## What this repository contains
 
 1. [Laser cutting templates](#laser)
-2. [Scripts for exporting video to image sequences](#scripts)
-3. [Processing sketch for generating pages of film strips](#processing)
-4. [Calibration sketch](#calibration)
+2. [Processing sketch for generating pages of film strips](#processing)
+3. [Scripts for exporting video to image sequences](#scripts)
+4. [Calibration](#calibration)
 
 <a name="laser"></a>
-#### 1. Laser cutting templates
+## 1. Laser cutting templates
 
-The laser cutting templates can be used on their own and without the other components. Use them to cut non-film materials into shapes that can be used in analog film machines.
+![Vellum laser cut into 16mm strips](docs/vellum.jpeg?raw=true "Vellum laser cut into 16mm strips")
 
-The provided .svg and .dxf files can be opened in whichever application you use to control your laser cutter. With just these files you can cut twelve 33-frame strips of 16mm-sized film from any flat material that you can cut with your laser. Whether or not it will run through a projector depends on the material, but at least you can cut it! This has been tried with paper, vellum, acetate and inkjet transparency film.
+The laser cutting templates can be used on their own and without the other components. Use them to cut non-film materials into shapes that can be used in analog film machines. If all you want to do is laser cut materials into film shapes, you're almost done reading.
 
-Using the provided OpenSCAD file, `scad/16mm_film.scad`, you can generate .dxf or .svg files of your own dimensions. Build strips of any number of frames and generate any number of strips. Just change the variables `FRAME` and `STRIP` at the top of the file or use the new Customizer feature in the latest version of OpenSCAD.
+The provided .svg and .dxf files can be opened in whichever application you use to control your laser cutter. With just these files you can cut twelve 33-frame strips of 16mm-sized film from any flat material that you can cut with your laser. Whether or not it will run through a projector depends on the material but at least you can cut it! This has been tried with paper, vellum, acetate and inkjet transparency film.
 
-For more advanced tweaks, change the `PITCH` variable from "long" to "short" to cut camera-sized short pitch film strips. You can also change the `PERFS` variable from "single"  to "double" for generating double perforated film strips.
+![16mm_film.scad in OpenSCAD](docs/openscad.png?raw=true "16mm_film.scad in OpenSCAD")
+
+Using the provided [OpenSCAD](https://www.openscad.org/) file, `scad/16mm_film.scad`, you can generate .dxf or .svg files of your own dimensions. Build strips of any number of frames and generate any number of strips. Just change the variables `FRAMES` and `STRIPS` at the top of the file or use the new Customizer feature in the latest version of OpenSCAD. The default values are `FRAMES = 33` and `STRIPS = 12` which fits into a US Letter sized piece of paper (or inkjet transparency film).
+
+For more advanced tweaks, you can change the `PITCH` variable from "long" to "short" to cut camera-sized short pitch film strips. You can also change the `PERFS` variable from "single"  to "double" for generating double perforated film strips. 
+
+The "pitch" of the film refers to the distance between the perforations and varies between camera stocks and projection stocks. If you plan on contact printing your results from this process, it may make sense to you to use "short" pitch. If you plan on scanning, optical printing or projecting your results, "long" pitch may work best.
+
+<a name="processing"></a>
+## 2. A Processing sketch for generating pages of film strips
+
+If you have installed Processing and the required libraries (read below) you can use this sketch to generate pages containing strips of 16mm-sized images from image sequences. Using the default settings, this will build a page of 12 strips, each 33 frames long that will comfortably fit on a letter-sized piece of 8.5" x 11" sheet of inkjet transparency film.
+
+By including a path to a *mono* audio file, tested only with .wav files so far, this sketch will build an optical soundtrack facsimile using the [SoundtrackOptical](https://github.com/sixteenmillimeter/SoundtrackOptical) library for Processing and sit it in the correct area of the film strip.
+
+The sketch can be modified to accommodate different desired output; generating Super16 filmstrips, inverting your image to negative or creating double-perf film strips. [Read more about setting the sketch variables below.](#variables)
 
 <a name="scripts"></a>
-#### 2. Scripts for exporting video to image sequences 
+## 3. Scripts for exporting video to image sequences 
 
-If you would like to generate images for printing and cutting, you will need Processing and optionally ffmpeg for generating image sequences from your video. Using the provided `scripts/export.sh` script, you can quickly export an image sequence of .png files to your desktop that the processing sketch `filmless_processing.pde` will turn into pages of film strips to be printed and cut.
+If you would like to generate images for printing and then laser cutting, you will need Processing and optionally [ffmpeg](https://www.ffmpeg.org/) for generating image sequences from video files. Using the provided `scripts/export.sh` script, you can quickly export an image sequence of .png files to your desktop that the processing sketch `filmless_processing.pde` will turn into pages of film strips to be printed and cut.
 
-Simply pass in a path to your video as the first and only argument, like so:
+The other two scripts `calibration.sh` and `pages.sh` are for using [ImageMagick](https://imagemagick.org/index.php) to convert your resulting image files to the proper DPI for printing. More on this in the [calibration](#calibration) section.
+
+### export.sh 
+
+This script relies on `ffmpeg` which must be installed for it to work. Check out the [installation instructions below](#ffmpeg) for information about getting ffmpeg on your system.
+
+To use the export script, first navigate to the `filmless` folder. If you downloaded the [.zip of the repository](https://github.com/sixteenmillimeter/filmless/archive/master.zip) and uncompressed it in your downloads folder then "/path/to/filmless" can be replaced with "~/Downloads/filmless-master" on macOS and Linux.
+
+```bash
+cd /path/to/filmless
+```
+
+Then, to run the export script simply pass in a path to your video as the first and only argument. In this example "/path/to/my/video.mov" will actually be a path to the video you wish you turn into an image sequence.
 
 ```bash
 sh scripts/export.sh /path/to/my/video.mov
 ```
 
-This will export the video in a .png sequence to a folder on your Desktop in a folder named "frames". This is the default directory that the `filmless_processing.pde` sketch will look for an image sequence.
+This will export the video in a .png sequence to a folder on your Desktop in a folder named "frames". This is the default directory that the `filmless_processing.pde` sketch will look for an image sequence. If your video contained any audio, it will be exported to a mono file named "audio.wav" in the "audio" folder now on your desktop. Otherwise you may see an error message in your terminal telling you that it couldn't find a stream. Oh well.
 
-You can also export image sequences using your application of choice. This script simply allows you to do so from the command line without opening up an NLE or media export program. You can also generate image sequences with other Processing sketches.
+You don't need to use this script to export your video to image sequences. You can use the application of choice to create your image sequences for the Processing sketch. This script simply lets you do that from the command line without opening up an NLE or media export program. You can even generate image sequences with other Processing sketches, thereby having a completely cameraless and **cough** filmless process for creating 16mm analog movies.
 
-Note: Processing can only read .tif files produced by the application, so unless you are using an image sequence generated by Processing save your files as .png or .jpeg.
+Note: Processing can only read .tif files produced by the application itself, so unless you are using an image sequence generated by Processing save your files as .png or .jpeg. This
 
+There are a few parameters to tweak in the script for best results.
 
+```bash
+WITH_SOUND=true
+```
+
+Changing "WITH_SOUND" to any value other than true will tell the script to not try to export audio. For everyone's sanity, it makes sense to change it to "WITH_SOUND=false" to keep it semantic, but I'm not your boss. Do what feels right.
+
+```bash
+AUDIO_RATE=10368
+```
+
+If you plan on using audio, this is important to pay attention to. The maximum sample rate of your audio is limited by the resolution of your printer. The maximum number of lines that can be used to describe the audio in a printed soundtrack can be determined by a relatively simple formula.
+
+```
+AUDIO_RATE = ONE SECOND OF FRAMES * FILM PITCH * (DPI / MM PER INCH)
+```
+
+Using long pitch film measurements and 1440 as our DPI. An inch is equal to 25.4mm. There are 24 frames in one second of 16mm film.
+
+```
+10368 = 24 * 7.62 * (1440 / 25.4)
 
 ```
 
+Reducing the sample rate to the maximum that this process can produce serves two purposes: it gives you the best quality soundtrack in the minimum amount of processing time and it allows you to preview some of the distortion that you will hear in your printed soundtrack. Higher frequencies are impossible and you can mix accordingly.
+
+The value you can use will be output in both the `filmless_processing.pde` and `filmless_calibration.pde` sketches when you set your parameters, including your target DPI. [Read more about calibration](#calibration) below.
+
+### calibration.sh
+
+This script requires [ImageMagick](https://imagemagick.org/index.php) and will convert the images output by the `filmless_calibration.pde` sketch to the correct DPI for accurate scale printing. Make sure to set the "DPI" variable of the script to the same value used in the sketch. Running it will convert any .png in the "filmless_calibration" directory to the desired DPI.
+
+```bash
+sh scripts/calibration.sh
 ```
 
-<a name="processing"></a>
-#### 3. A Processing sketch for generating pages of film strips
+### pages.sh
 
-If you have installed Processing and the required libraries (read below) you can use this sketch to generate . Using the default settings, this will build a page of 12 strips, each 33 frames long that will comfortably fit on a letter-sized piece of 8.5" x 11" sheet of inkjet transparency film.
+Similar to the calibration script, this will convert your output .tif files from `filmless_processing.pde` to the correct DPI.
 
-By including a path to a *mono* audio file, tested only with .wav files so far, you will build an optical soundtrack facsimile using the [SoundtrackOptical](https://github.com/sixteenmillimeter/SoundtrackOptical)  library for Processing.
+<a name="calibration"></a>
+#### 4. Calibration
+
+The purpose of the calibration sketch `filmless_calibration.pde` is to generate a page to calibrate between your printer and laser cutter. The page it creates is easy on your ink cartridge while determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
+
+You should re-perform this step when you change printers or any significant print settings that affect the quality or media you're printing onto.
+
+The calibration sketch should be set up with the same variables you intend to use to generate your pages of film strips.
+
+```java
+int DPI = 1440;
+String PITCH = "long";
+String FORMAT = "16mm";
+float PAGE_W = 8.5;
+float PAGE_H = 11.0;
+float SAFE_W = .25;
+float SAFE_H = .5;
+```
+
+This sketch produces an image that is the same size as one page produced by `filmless_processing.pde` that contains four 10mm x 10mm squares on the outer corners of the image area and contains two 100mm rulers along both the horizontal and vertical axises.
+
+![Output of processing_calibration.pde](docs/calibration.png?raw=true "Output of processing_calibration.pde")
+
+The "magic" variables determine the overall stretch or squash of the entire page. When set to 1, the resulting page will not be changed. When set above 1 the page has its height or width stretched and below 1 will cause it to be squashed.
+
+```java
+float MAGIC_H_CORRECTION = 1.0; 
+float MAGIC_W_CORRECTION = 1.0;
+```
+
+After printing your calibration page, measure the rulers and ensure that they are the correct length. If, for example, you measure the "height" ruler to actually be 99mm instead of 100mm, you can set the `MAGIC_H_CORRECTION` value to `100.0 / 99.0` which will result in a stretch value of `1.0101010101010102`. If the same ruler actually measured 103mm, you can achieve a squash with the line `MAGIC_H_CORRECTION = 100.0 / 103.0` which is equivalent to `0.970873786407767`.
+
+After measuring and calculating your "magic" values, print another test sheet and confirm that your rulers are the correct length. Then, these two values should be used in your `filmless_processing.pde` when generating your images.
+
+The calibration sketch also outputs useful data into your Processing logs, such as the total image size and soundtrack sample rate for you to use in other scripts. It will look similar to the below output.
+
+```
+PAGE SIZE: 11520x14400
+FRAME SIZE: 582x425
+FRAMES PER STRIP: 33
+STRIPS PER PAGE: 12
+FRAMES PER PAGE: 396
+CALIBRATION W (MM): 192
+CALIBRATION H (MM): 251.45999
+SOUNDTRACK SAMPLE RATE: 10368
+```
+
+## Hardware
+
+* Laser cutter
+* (optional) Printer
+
+## Dependencies
+
+* [Processing](https://processing.org/) - [[Download](https://processing.org/download/)]
+* [Sound library for Processing](https://processing.org/reference/libraries/sound/index.html) - [[Installation instructions]()]
+* [SoundtrackOptical library for Processing](https://github.com/sixteenmillimeter/SoundtrackOptical)
+* (optional) [ffmpeg](https://www.ffmpeg.org/) - [[Download](https://www.ffmpeg.org/download.html)] or [[Installation instructions](#ffmpeg)]
+* (optional) [OpenSCAD](https://www.openscad.org/) - [[Download](https://www.openscad.org/downloads.html)]
+* (optional) [ImageMagick](https://imagemagick.org/index.php) - [[Download](https://imagemagick.org/script/download.php)] or [[Installation instructions](#ffmpeg)]
+
+<a name="ffmpeg"></a>
+## Installing ffmpeg and/or ImageMagick
+
+### macOS
+
+On a Mac, ffmpeg can be quickly and easily installed using the [Homebrew](https://brew.sh) package manager. Simply go to [https://brew.sh](https://brew.sh) and follow the instructions on the page. Then, 
+
+```bash
+brew install ffmpeg
+```
+
+To install ImageMagick (which will include the program `convert`):
+
+```bash
+brew install imagemagick
+```
+
+### Linux
+
+Install both ffmpeg and ImageMagick on Linux systems with either apt or yum.
+
+```bash
+apt install ffmpeg imagemagick
+```
+
+or
+
+```bash
+yum install ffmpeg imagemagick
+```
+
+### Windows
+
+The scripts are tested on macOS and Linux, but can be converted to work with Windows operating systems with few edits. Check the install links above for the Windows executables for ffmpeg and ImageMagick. Happy to accept pull requests for updates to the bash scripts to support all operating systems.
+
+
+<a name="variables"></a>
+## Processing variables
 
 There are variables at the beginning of the sketch that you will need to change to properly generate pages from your images.
 
@@ -160,57 +317,3 @@ int SOUND_OFFSET = 25;
 The sound offset is the number of frames before the image starts after the soundtrack starts. When set to `25` the image will start on the 26th frame, which is the standard for 16mm prints. Change this only if sync sound is not important.
 
 To set the `MAGIC_W_CORRECTION` and `MAGIC_H_CORRECTION` variables, read the below section on calibration.
-
-<a name="calibration"></a>
-#### 4. Calibration sketch
-
-The purpose of the calibration sketch `filmless_calibration.pde` is to generate a page to calibrate between your printer and laser cutter. The page it generates is easy on your ink cartridge while you determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
-
-## Hardware
-
-* Laser cutter
-* (optional) Printer
-
-## Dependencies
-
-* [Processing](https://processing.org/) - [[Download](https://processing.org/download/)]
-* [Sound library for Processing](https://processing.org/reference/libraries/sound/index.html) - [[Installation instructions]()]
-* [SoundtrackOptical library for Processing](https://github.com/sixteenmillimeter/SoundtrackOptical)
-* (optional) [ffmpeg](https://www.ffmpeg.org/) - [[Download](https://www.ffmpeg.org/download.html)] or [[Installation instructions](#ffmpeg)]
-* (optional) [OpenSCAD](https://www.openscad.org/) - [[Download](https://www.openscad.org/downloads.html)]
-* (optional) [ImageMagick](https://imagemagick.org/index.php) - [[Download](https://imagemagick.org/script/download.php)] or [[Installation instructions](#ffmpeg)]
-
-<a name="ffmpeg"></a>
-## Installing ffmpeg and/or ImageMagick
-
-### macOS
-
-On a Mac, ffmpeg can be quickly and easily installed using the [Homebrew](https://brew.sh) package manager. Simply go to [https://brew.sh](https://brew.sh) and follow the instructions on the page. Then, 
-
-```bash
-brew install ffmpeg
-```
-
-To install ImageMagick (which will include the program `convert`):
-
-```bash
-brew install imagemagick
-```
-
-### Linux
-
-Install both ffmpeg and ImageMagick on Linux systems with either apt or yum.
-
-```bash
-apt install ffmpeg imagemagick
-```
-
-or
-
-```bash
-yum install ffmpeg imagemagick
-```
-
-### Windows
-
-The scripts are tested on macOS and Linux, but can be converted to work with Windows operating systems with few edits. Check the install links above for the Windows executables for ffmpeg and ImageMagick. Happy to accept pull requests for updates to the bash scripts to support all operating systems.

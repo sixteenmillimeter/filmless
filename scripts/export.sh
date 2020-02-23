@@ -4,7 +4,7 @@ WITH_SOUND=true		#change to false for a silent film
 
 #changes based on printer DPI, this is for 1440
 #check the output of the calibration script
-AUDIO_RATE=10296
+AUDIO_RATE=10368
 
 #Either use the script by passing in a path, ie:
 #sh export.sh /path/to/my/video.mov
@@ -20,8 +20,9 @@ mkdir -p "$AUDIO_DIR"
 
 echo "Exporting ${VIDEO}..."
 
+
 rm "${FRAMES_DIR}*.png"
-ffmpeg -y -i "${VIDEO}" -f image2 -r 24 "${FRAMES_DIR}image-%08d.png"
+ffmpeg -y -i "${VIDEO}" -f image2 -r 24 -compression_algo raw -pix_fmt rgb24 -crf 0 "${FRAMES_DIR}image-%08d.png"
 
 if [ "$WITH_SOUND" == "true" ]; then
   echo "Exporting audio from ${VIDEO}..."
