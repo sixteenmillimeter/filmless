@@ -149,7 +149,7 @@ float SAFE_H = .5;
 
 This sketch produces an image that is the same size as one page produced by `filmless_processing.pde` that contains four 10mm x 10mm squares on the outer corners of the image area and contains two 100mm rulers along both the horizontal and vertical axises.
 
-![Output of processing_calibration.pde](docs/calibration.png?raw=true "Output of processing_calibration.pde")
+![Output of processing_calibration.pde](docs/filmless_calibration.png?raw=true "Output of processing_calibration.pde")
 
 The "magic" variables determine the overall stretch or squash of the entire page. When set to 1, the resulting page will not be changed. When set above 1 the page has its height or width stretched and below 1 will cause it to be squashed.
 
