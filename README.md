@@ -2,7 +2,7 @@
 
 Scripts and templates for making "filmless", cameraless analog films using free open-source software. 
 
-Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this set of tools for building pixel-perfect image sequences for printing and laser cutting into viable 16mm film strips.
+Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this is a set of tools for building pixel-perfect image sequences for printing and laser cutting into viable 16mm film strips. Create 16mm films from non-film materials and convert video to strips of film using the [Processing](https://processing.org/).
 
 ### [Download](https://github.com/sixteenmillimeter/filmless/archive/master.zip)
 
@@ -34,7 +34,9 @@ For more advanced tweaks, you can change the `PITCH` variable from "long" to "sh
 The "pitch" of the film refers to the distance between the perforations and it varies between camera stocks and projection stocks. If you plan on contact printing your results from this process, it may make sense to you to use "short" pitch (7.605mm). If you plan on scanning, optical printing or projecting your results, "long" pitch (7.62mm) may work best.
 
 <a name="processing"></a>
-## 2. A Processing sketch for generating pages of film strips
+## 2. Processing sketch for generating pages of film strips
+
+This Processing sketch will create a printable page of 16mm-sized film strips from an image sequence. Generate an image sequence from a video file using the [convert.sh script](#scripts) or generate your own using your application of choice. Create standard strips of standard 16mm or Super16-sized images on single or double perforated film optionally containing a generated optical soundtrack.
 
 ![Video converted to film strips](docs/video.jpeg)
 
