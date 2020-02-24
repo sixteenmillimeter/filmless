@@ -40,7 +40,7 @@ This Processing sketch will create a printable page of 16mm-sized film strips fr
 
 ![Video converted to film strips](docs/video.jpeg)
 
-If you have installed Processing and the required libraries ([read below](#ffmpeg)) you can use this sketch to generate pages containing strips of 16mm-sized images from image sequences. Using the default settings, this will build a page of 12 strips, each 33 frames long that will comfortably fit on a letter-sized piece of 8.5" x 11" sheet of inkjet transparency film.
+If you have installed Processing and the required libraries ([read below](#ffmpeg)) you can use this sketch to generate pages containing strips of 16mm-sized images from image sequences. Using the default settings, this will build a page of 12 strips, each 33 frames long, that will comfortably fit on a letter-sized 8.5" x 11" sheet of inkjet transparency film.
 
 ![Video with sound converted to film strips](docs/video2.jpeg?raw=true)
 
