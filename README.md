@@ -69,17 +69,19 @@ To use the export script, first navigate to the `filmless` folder. If you downlo
 cd /path/to/filmless
 ```
 
-Then, to run the export script simply pass in a path to your video as the first and only argument. In this example "/path/to/my/video.mov" will actually be a path to the video you wish you turn into an image sequence.
+Then, to run the export script, simply pass in a path to your video as the first and only argument. In this example "/path/to/my/video.mov" will actually be a path to the video you wish you turn into an image sequence.
 
 ```bash
 sh scripts/export.sh /path/to/my/video.mov
 ```
 
-This will export the video in a .png sequence to a folder on your Desktop in a folder named "frames". This is the default directory that the `filmless_processing.pde` sketch will look for an image sequence. If your video contained any audio, it will be exported to a mono file named "audio.wav" in the "audio" folder now on your desktop. Otherwise you may see an error message in your terminal telling you that it couldn't find a stream. Not to worry.
+Tip for macOS Terminal users: You can get an absolute path to any file by simply dragging it into Terminal. Type "sh scripts/export " including the space at the end and then drag your video into Terminal and hit enter. Voilà.
+
+This will export the video in a *high quality* .png sequence to a folder on your Desktop in a folder named "frames". This is the default directory that the `filmless_processing.pde` sketch will look for an image sequence. If your video contained any audio, it will be exported to a mono file named "audio.wav" in the "audio" folder now on your desktop. Otherwise you may see an error message in your terminal telling you that it couldn't find a stream. Not to worry.
 
 You don't need to use this script to export your video to image sequences. You can use the application of choice to create your image sequences for the Processing sketch. This script simply lets you do that from the command line without opening up an NLE or media export program. 
 
-You can alternately generate image sequences with other Processing sketches, thereby having a completely cameraless and **cough** filmless process for creating 16mm analog movies.
+You can alternately generate image sequences with other Processing sketches, thereby having a completely cameraless and ***cough*** filmless process for creating 16mm analog movies.
 
 <img src="docs/generative2.jpeg" alt="Generative example from Processing sketch" width="400" height="auto" /><img src="docs/gan.jpeg" alt="Example from a GAN" height="398" width="auto" />
 
@@ -97,30 +99,30 @@ Changing "WITH_SOUND" to any value other than true will tell the script to not t
 AUDIO_RATE=10368
 ```
 
-If you plan on using audio, this is important to pay attention to. The maximum sample rate of your audio is limited by the resolution of your printer. The maximum number of lines that can be used to describe the audio in a printed soundtrack can be determined by a relatively simple formula.
+If you plan on using audio, "AUDIO_RATE" important to pay attention to. The maximum sample rate of your audio is determined by the maximum resolution of your printer. The maximum number of lines that can be used to describe the audio in a printed soundtrack can be determined by a relatively simple formula.
 
 ```
 AUDIO_RATE = ONE SECOND OF FRAMES * FILM PITCH * (DPI / MM PER INCH)
 ```
 
-Using long pitch film measurements and 1440 as our DPI. An inch is equal to 25.4mm. There are 24 frames in one second of 16mm film.
+Using long pitch film measurements and 1440 as our DPI, an inch being equal to 25.4mm and there being 24 frames in one second of 16mm film...
 
 ```
-10368 = 24 * 7.62 * (1440 / 25.4)
+24 * 7.62 * (1440 / 25.4) = 10368
 
 ```
 
-Reducing the sample rate to the maximum that this process can produce serves two purposes: it gives you the best quality soundtrack in the minimum amount of processing time and it allows you to preview some of the distortion that you will hear in your printed soundtrack. Higher frequencies are impossible and you can mix accordingly.
+Reducing the sample rate to the maximum that this process can produce serves two purposes: it gives you the best quality soundtrack in the minimum amount of processing time and it allows you to preview some of the distortion that you will hear in your printed soundtrack. Higher frequencies are impossible to reproduce and you can mix accordingly.
 
 The value you can use for the soundtrack sample rate will be output in both the `filmless_processing.pde` and `filmless_calibration.pde` sketches when you set your parameters, including your target DPI. [Read more about the calibration sketch](#calibration) below.
 
 ### calibration.sh
 
-The default DPI of an image created by Processing is 72. Meanwhile, your printer is likely capable of printing at a much higher density. 600, 1200, 2880 or higher. When creating images meant for 1200 DPI but creating one that says it's only 72 DPI will create a nightmare when trying to print at "actual" size. 
+The default DPI of an image created by Processing is 72. Meanwhile, your printer is likely capable of printing at a much higher density. 600, 1200, 2880 and beyond. When creating images meant for a 1200 DPI printer but creating one that says it's only 72 DPI will create a headache when trying to print at "actual" size. 
 
 Use this script to change your calibration .png files to the same DPI used to generate them. Then, when printing, you'll be able to tell your printer to scale the image to 100% rather than some fractional percentage (`1200 / 72` for example).
 
-This script requires [ImageMagick](https://imagemagick.org/index.php) and will convert the images output by the `filmless_calibration.pde` sketch to the correct DPI for accurate scale printing. Make sure to set the `DPI` variable of the script to the same value used in the sketch. Running it will convert any .png in the "filmless_calibration" directory to the desired DPI.
+This script requires [ImageMagick](https://imagemagick.org/index.php) and will convert the images output by the `filmless_calibration.pde` sketch to the correct DPI for accurate scale printing. Make sure to set the `DPI` variable of the script to the same value used in the sketch. Running it will convert any .tif in the "filmless_calibration" directory to a .png with the desired DPI. This allows for massive reduction in file size with a lossless conversion.
 
 ```bash
 sh scripts/calibration.sh
@@ -130,12 +132,14 @@ sh scripts/calibration.sh
 
 Similar to the calibration script, this will convert your output .tif files from `filmless_processing.pde` to the correct DPI. Also set the `DPI` variable in this script to the one used in your Processing sketch. By default, this looks for files named `page_*.tif` on your Desktop.
 
+Unlike the calibration script, this does not convert your image to .png but maintains the TIFF format.
+
 <a name="calibration"></a>
 #### 4. Calibration
 
 The purpose of the calibration sketch `filmless_calibration.pde` is to generate a page to calibrate between your printer and laser cutter. The page it creates is easy on your ink cartridge while determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
 
-You should re-perform this step when you change printers or any significant print settings that affect the quality or media you're printing onto.
+You should re-perform this step when you change printers, laser cutters or make any significant adjustments to your printer settings that affect the quality or media you're printing onto. This sketch was created because after performing many repeatable tests with a working progress, an adjustment to a media quality value in a Epson printer settings dialog, images started printing with a 2-3mm stretch. This processes effectively mitigated that distortion.
 
 The calibration sketch should be set up with the same variables you intend to use to generate your pages of film strips.
 
@@ -176,6 +180,8 @@ CALIBRATION W (MM): 192
 CALIBRATION H (MM): 251.45999
 SOUNDTRACK SAMPLE RATE: 10368
 ```
+
+Note: The "CALIBRATION W (MM)" and "CALIBRATION H (MM)" values refer to the total distance from corner to corner of the squares. These value will be printed on your calibration page and can be used in place of the 100mm rulers. If the top two squares measure 194mm across instead of 192mm, your `MAGIC_W_CORRECTION` fraction would be `192.0 / 194.0`.
 
 <a name="dependencies"></a>
 ## Dependencies
