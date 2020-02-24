@@ -2,7 +2,7 @@
 
 Scripts and templates for making "filmless", cameraless analog films using free open-source software. 
 
-Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this is a set of tools for building pixel-perfect image sequences for printing and laser cutting into viable 16mm film strips. Create 16mm films from non-film materials and convert video to strips of film using the [Processing](https://processing.org/).
+Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application for generating film-sized strips of images, this is a set of tools for building pixel-perfect image sequences for printing and laser cutting into viable 16mm film strips. Create 16mm films from non-film materials and convert video to strips of film using [Processing](https://processing.org/).
 
 ### [Download](https://github.com/sixteenmillimeter/filmless/archive/master.zip)
 
