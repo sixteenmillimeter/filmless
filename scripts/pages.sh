@@ -14,6 +14,7 @@ echo "Changing exported page files to ${DPI}dpi..."
 
 for f in $PAGE_FILES
 do
-	echo "Converting ${f} to ${DPI}dpi..."
-	mogrify $f -units PixelsPerInch -density $DPI
+	name=$(basename "$f" .tif)
+	echo "Converting ${f} to ~/Desktop/${name}.png @ ${DPI}dpi..."
+	convert $f -units PixelsPerInch -density $DPI "~/Desktop/${name}.png"
 done

@@ -17,7 +17,7 @@ for f in $CALIBRATION_FILES
 do
 	name=$(basename "$f" .tif)
 	#echo $name
-	echo "Converting $f -> ../filmless_calibration/${name}.png..."
+	echo "Converting $f -> ../filmless_calibration/${name}.png @ ${DPI}dpi..."
 	convert $f -units PixelsPerInch -density $DPI "../filmless_calibration/${name}.png"
 	rm $f
 done
