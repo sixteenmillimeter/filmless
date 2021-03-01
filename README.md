@@ -12,7 +12,8 @@ Building off of the [v2f](https://github.com/sixteenmillimeter/v2f) application 
 2. [Processing sketch for generating pages of film strips](#processing)
 3. [Scripts for exporting video to image sequences](#scripts)
 4. [Calibration](#calibration)
-5. [Installation instructions for dependencies](#dependencies)
+5. [Dependencies & installation instructions](#dependencies)
+6. [Laser cutting tips](#cutting)
 
 <a name="laser"></a>
 ## 1. Laser cutting templates
@@ -139,7 +140,7 @@ Unlike the calibration script, this does not convert your image to .png but main
 
 The purpose of the calibration sketch `filmless_calibration.pde` is to generate a page to calibrate between your printer and laser cutter. The page it creates is easy on your ink cartridge while determine if there is any stretch or squish happening to your generated pages of film strips before you commit to printing them out for cutting.
 
-You should re-perform this step when you change printers, laser cutters or make any significant adjustments to your printer settings that affect the quality or media you're printing onto. This sketch was created because after performing many repeatable tests with a working progress, an adjustment to a media quality value in a Epson printer settings dialog, images started printing with a 2-3mm stretch. This processes effectively mitigated that distortion.
+You should re-perform this step when you change printers, laser cutters or make any significant adjustments to your printer settings that affect the quality or media you're printing onto. This sketch was created because after performing many repeatable tests with a working progress, an adjustment to a media quality value in a Epson printer settings dialog caused pages to start printing with a 2-3mm stretch along the height. This processes effectively mitigated that distortion.
 
 The calibration sketch should be set up with the same variables you intend to use to generate your pages of film strips.
 
@@ -184,10 +185,10 @@ SOUNDTRACK SAMPLE RATE: 10368
 Note: The "CALIBRATION W (MM)" and "CALIBRATION H (MM)" values refer to the total distance from corner to corner of the squares. These value will be printed on your calibration page and can be used in place of the 100mm rulers. If the top two squares measure 194mm across instead of 192mm, your `MAGIC_W_CORRECTION` fraction would be `192.0 / 194.0`.
 
 <a name="dependencies"></a>
-## Dependencies
+## 5. Dependencies
 
 * [Processing](https://processing.org/) - [[Download](https://processing.org/download/)]
-* [Sound library for Processing](https://processing.org/reference/libraries/sound/index.html) - [[Installation instructions]()]
+* [Sound library for Processing](https://processing.org/reference/libraries/sound/index.html) - [[Download if not installed by default](https://github.com/processing/processing-sound)]
 * [SoundtrackOptical library for Processing](https://github.com/sixteenmillimeter/SoundtrackOptical)
 * (optional) [ffmpeg](https://www.ffmpeg.org/) - [[Download](https://www.ffmpeg.org/download.html)] or [[Installation instructions](#ffmpeg)]
 * (optional) [OpenSCAD](https://www.openscad.org/) - [[Download](https://www.openscad.org/downloads.html)]
@@ -227,6 +228,8 @@ yum install ffmpeg imagemagick
 ### Windows
 
 The scripts are tested on macOS and Linux, but can be converted to work with Windows operating systems with few edits. Check the install links above for the Windows executables for ffmpeg and ImageMagick. Happy to accept pull requests for updates to the bash scripts to support all operating systems.
+
+## 6. Laser cutting tips
 
 ------
 
